@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Your Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+        }
+        #stats_div {
+            height: 50px;
+            width: 100%;
+            margin-top: 5px;
+        }
+        .main_div {
+            margin-top: 10px;
+            background-color: #164454;
+            height: 120px;
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: auto;
+            display: inline-block;
+        }
+        .inner_maindiv {
+            background-color: white;
+            color: black;
+            height: 80%;
+            width: 15%;
+            margin-top: 20px;
+            display: inline-block;
+            border: 2px solid rgb(57, 51, 51);
+            border-radius: 10px;
+            text-align: center;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+          }
+        .data {
+            color: aquamarine;
+        }
+    </style>
+  </head>
+  <body>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="hashed">User Profile</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/UserHome/{{userid}}">Back</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" aria-disabled="true", href="/LogoutUser/{{userid}}">Logout</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        
+          <div>
+            <h5>User Name: <span class="data">{{data.name}}</span></h5>
+            <h5>Creation Date: <span class="data">{{data.login_date}}</span></h5>
+            <h5>Songs Played: <span class="data">{{data.playtime}}</span></h5>
+          </div>
+          <br>
+          <h6>Recent Played Songs</h6>
+          <div class="main_div">
+                {% if recentplays is none %}
+                  <h3>None Played</h3>
+                {% else %}
+                {% for song in recentplays %}
+                <div class="inner_maindiv"> <span id="relative">{{song[1]}} </span>
+                <br><br><a href="/songPlay/{{user_id}}/{{song[0]}}/{{song[1]}}">
+                  <button type="button" class="btn btn-secondary" style="background-color:rgb(40, 32, 32);" id="divein">Dive In!</button>
+                </a>
+              </div>
+                {% endfor %}
+                {% endif %}
+          </div>
+</body>
+</html>

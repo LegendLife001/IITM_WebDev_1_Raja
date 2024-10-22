@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MuzWay | Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+        }
+        #stats_div {
+            height: 50px;
+            width: 100%;
+            margin-top: 5px;
+            display: inline-block
+        }
+        .main_div {
+          position: relative;
+            margin-top: 10px;
+            background-color: #164454;
+            height: 140px;
+            width: 100%;  
+            display: inline-block;
+            overflow: auto;
+        }
+        .inner_maindiv {
+            background-color: white;
+            color: black;
+            height: 110px;
+            width: 190px;
+            margin-top: 20px;
+            display: inline-block;
+            border: 2px solid rgb(57, 51, 51);
+            border-radius: 10px;
+            text-align: center;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+          }
+
+/* Dropdown Button */
+.dropbtn {
+  background-color: #04AA6D;
+  color: white;
+  padding:12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 10px;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 120px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content input {
+  color: black;
+  padding: 5px 25px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content input:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+        
+    </style>
+  </head>
+  <body>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="hashed">User DashBoard   |</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/creatorprofile/{{user_id}}">Creator</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/UserProfile/{{user_id}}/">Profile</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" aria-disabled="true", href="/LogoutUser/{{user_id}}">Logout</a>
+                  </li>
+                </ul>
+                <form class="d-flex" role="search" method="POST" name="searchform">
+                  <div class="dropdown">
+                    <button class="dropbtn" disabled>Search</button>
+                    <div class="dropdown-content">
+                      <input type="submit" value="For Album " onclick="searchform.action='/SearchForAlbum/{{user_id}}/'"></input>
+                      <input type="submit" value="For Song   " onclick="searchform.action='/SearchForSong/{{user_id}}/'"></input>
+                    </div>
+                  </div>
+                  <input class="form-control me-2" type="search" placeholder="What to search?" aria-label="Search" name="searchdata">
+                </form>
+              </div>
+            </div>
+          </nav>
+        {% for msg in get_flashed_messages() %}
+              <div class="alert alert-warning alert-dismissible" role="alert">
+                {{msg}}
+                <div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+              </div>
+              {% endfor %}
+          <div id="stats_div">
+                <a href="/showcreators/{{user_id}}/">
+                    <button type="button" class="btn btn-secondary">View Creators</button>
+                </a>
+                <a href="/ViewAlbums/{{user_id}}/">
+                    <button type="button" class="btn btn-secondary">View all Albums</button>
+                </a>
+                <a href="/makenewplaylist/{{user_id}}/">
+                    <button type="button" class="btn btn-secondary">Make New Playlist</button>
+                </a>
+                <a href="/addsongstoplaylist/{{user_id}}/">
+                  <button type="button" class="btn btn-secondary">Add Songs to Playlist</button>
+              </a>
+          </div>
+         
+          <br>
+          <h6>Songs Available</h6>
+          <div class="main_div">
+                {% for song in mylist %}
+                <div class="inner_maindiv"> <span id="relative">{{song[1]}} </span>
+                <br><br><a href="/songPlay/{{user_id}}/{{song[0]}}/{{song[1]}}">
+                  <button type="button" class="btn btn-secondary" style="background-color:rgb(40, 32, 32);" id="divein">Dive In!</button>
+                </a>
+              </div>
+                {% endfor %}
+          </div>
+          Your Playlists:
+          {% for (id, pl) in myplaylists %}
+          
+          <div class="main_div">{{pl}}
+            {% for song in myplaylists[(id, pl)] %}
+              <div class="inner_maindiv">{{song[1]}}
+              <br><br>
+              <a href="/songPlay/{{user_id}}/{{song[0]}}/{{song[1]}}">
+                <button type="button" class="btn btn-secondary" style="background-color:rgb(40, 32, 32);">Dive In!</button>
+              </a>
+              <a href="/songRemove/{{user_id}}/{{song[0]}}/{{id}}">
+                <button type="button" class="btn btn-secondary" style="padding: 4px;">Remove</button>
+              </a>
+            </div>
+            {% endfor %}
+
+          </div>
+          
+          {% endfor %}
+
+</body>
+</html>

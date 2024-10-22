@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Muzway</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+
+          .songline {
+            display: inline;
+          }
+          body {
+            background-color: #121212;
+            color: white;
+        }
+        #stats_div {
+            height: 50px;
+            width: 100%;
+            margin-top: 5px;
+            display: inline-block
+        }
+        .main_div {
+          position: relative;
+            margin-top: 10px;
+            background-color: #164454;
+            height: 80%;
+            width: 100%;  
+            display: inline-block;
+            overflow: auto;
+        }
+        /* .inner_maindiv {
+            background-color: white;
+            color: black;
+            height: 110px;
+            width: 190px;
+            margin-top: 20px;
+            display: inline-block;
+            border: 2px solid rgb(57, 51, 51);
+            border-radius: 10px;
+            text-align: center;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+          } */
+
+        .inner_maindiv {
+            display: block;
+            border: 2px solid rgb(59, 43, 43);
+        }
+        .datac {
+          float: right;
+          width: 20%;
+          height: 50%;
+          margin-right: 40px;
+          background-color: #156f69;
+          color: aliceblue;
+        }
+    </style>
+  </head>
+  <body>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">User Player</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  
+                </ul>
+                <form class="d-flex" role="search">
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
+                      <li class="nav-item">
+                        <a class="nav-link" aria-disabled="true", href="/">Logout</a>
+                      </li>
+                    </ul>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </nav>
+
+          <div id="stats_div">
+                <a href="/UserHome/{{userid}}/">
+                    <button type="button" class="btn btn-secondary">Home</button>
+                </a>
+            
+          </div>
+          {% if status == 0 %}
+            <h1>This Song is Locked!!!</h1>
+          {% else %}
+          <h6>Song Play</h6>
+          <div class="main_div">
+              <h5 class="songline">{{songname}}</h5>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+              <h6></h6>
+              <div class="inner_maindiv">
+                
+                <textarea name="textarea" id="" cols="80" rows="10" style="background-color: #366474; border: none; color:snow;">{{lyrics}}</textarea>
+                <div class="datac">
+                  <h6>Rating: {{rating}}</h6>
+                  <h6>Creator: {{creatorname}}</h6>
+                </div>
+            <audio src="{{url_for('static', filename=file)}}" controls autoplay>Not Found</audio><br>
+          </div>
+            <br><label for="customRange2" class="form-label">Rate This Song</label>
+            <form action="/RateSong/{{userid}}/{{songid}}/{{songname}}" method="POST">
+                <input type="range" min="0" max="5" name="ratedata">
+                <button type="submit" class="btn btn-dark" class="ratebtn">Rate it</button>
+            </form>
+            {{msg}}
+          </div>
+          {% endif %}
+
+</body>
+</html>
